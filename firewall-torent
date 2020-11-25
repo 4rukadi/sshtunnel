@@ -1,5 +1,4 @@
 #firewall torrent SSH Only
-
 iptables -I INPUT -p udp --dport 1024:1193 -j DROP
 iptables -I INPUT -p udp --dport 1195:1644 -j DROP
 iptables -I INPUT -p udp --dport 1647:65534 -j ACCEPT
@@ -43,9 +42,11 @@ iptables -I OUTPUT -p udp --dport 8888 -j ACCEPT
 iptables -I OUTPUT -p tcp --dport 7300 -j ACCEPT
 iptables -I OUTPUT -p udp --dport 7300 -j ACCEPT
 
-## Drop torrents
-iptables -A OUTPUT -p tcp --dport 6881:6889 -j DROP
-iptables -A OUTPUT -p udp --dport 1024:65534 -j DROP
+iptables -I OUTPUT -p tcp --dport 7200 -j ACCEPT
+iptables -I OUTPUT -p udp --dport 7200 -j ACCEPT
+iptables -I OUTPUT -p tcp --dport 7100 -j ACCEPT
+iptables -I OUTPUT -p udp --dport 7100 -j ACCEPT
+
 
 ## Set more radius (alt) ports
 
@@ -56,8 +57,8 @@ iptables -I OUTPUT -p udp --dport 1646 -j ACCEPT
 iptables -A FORWARD -m string --algo bm --string "BitTorrent" -j DROP
 
 ## Trying forward
-iptables -A FORWARD -p tcp --dport 6881:6889 -j DROP
-iptables -A FORWARD -p udp --dport 1024:65534 -j DROP
+#iptables -A FORWARD -p tcp --dport 6881:6889 -j DROP
+#iptables -A FORWARD -p udp --dport 1024:65534 -j DROP
 
 ###### Found on web
 
