@@ -176,4 +176,4 @@ iptables -D FORWARD -m string --algo bm --string "info_hash" -j DROP
 iptables -D FORWARD -m string --algo bm --string "tracker" -j DROP
 
 #simpan iptunnel
-service iptables save
+iptables-save> /etc/iptables/rules.v4
