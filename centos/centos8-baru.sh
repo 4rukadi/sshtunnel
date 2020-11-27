@@ -32,7 +32,7 @@ sed -i '$ i\echo 1 > /proc/sys/net/ipv6/conf/all/disable_ipv6' /etc/rc.d/rc.loca
 # install wget and curl
 yum -y install wget curl
 
-dnf install epel-release
+dnf install epel-release -y
 
 # remove unused
 yum -y remove sendmail;
