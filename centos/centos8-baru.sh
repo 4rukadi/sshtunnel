@@ -184,24 +184,30 @@ yum -y install cmake
 yum -y install gcc
 yum -y install screen
 
+
 # buat directory badvpn
-mkdir badvpn-build
-cd badvpn-build
-wget https://github.com/idtunnel/sshtunnel/raw/master/centos/openvpn/badvpn-update.zip
-unzip badvpn-update
-cmake -DBUILD_NOTHING_BY_DEFAULT=1 -DBUILD_UDPGW=1
+cd /usr/bin
+mkdir build
+cd build
+wget https://github.com/ambrop72/badvpn/archive/1.999.130.tar.gz
+tar xvzf 1.999.130.tar.gz
+cd badvpn-1.999.130
+cmake -DBUILD_NOTHING_BY_DEFAULT=1 -DBUILD_TUN2SOCKS=1 -DBUILD_UDPGW=1
 make install
-rm badvpn-update.zip
+make -i install
 
-# aut start badvpn
-sed -i '$ i\screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300 > /dev/null &' /etc/rc.local
-screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300 > /dev/null &
+# auto start badvpn single port
+sed -i '$ i\screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300 --max-clients 1000 --max-connections-for-client 10' /etc/rc.local
+screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300 --max-clients 500 --max-connections-for-client 20 &
 cd
-cd badvpn-build
 
-sed -i '$ i\screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7200 > /dev/null &' /etc/rc.local
-screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7200 > /dev/null &
+sed -i '$ i\screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300 --max-clients 1000 --max-connections-for-client 10' /etc/rc.d/rc.local
+screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300 --max-clients 500 --max-connections-for-client 20 &
 cd
+
+#permission 
+chmod +x /etc/rc.d/rc.local
+chmod +x /etc/rc.local
 
 # Sett iptables badvpn
 iptables -A INPUT -i eth0 -m state --state NEW -p tcp --dport 7300 -j ACCEPT
