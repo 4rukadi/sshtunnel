@@ -42,7 +42,7 @@ iptables -A OUTPUT -p tcp --dport 6881:6889 -j DROP
 iptables -A OUTPUT -p udp --dport 1024:65534 -j DROP
 
 ## Set more radius (alt) ports
-
+iptables -I OUTPUT -p udp --dport 443 -j ACCEPT
 iptables -I OUTPUT -p udp --dport 1645 -j ACCEPT
 iptables -I OUTPUT -p udp --dport 1646 -j ACCEPT
 
