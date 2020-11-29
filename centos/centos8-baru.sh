@@ -1,5 +1,6 @@
 #!/bin/bash
-#centos 9 auto instaler SSH 
+#centos 8 auto instaler SSH 
+#only SSH
 
 # initialisasi var
 export CENTOS_FRONTEND=noninteractive
@@ -381,14 +382,4 @@ echo "----------"  | tee -a log-install.txt
 echo ""  | tee -a log-install.txt
 echo "==============================================="  | tee -a log-install.txt
 
-# installasi openvpn centos 6 64bit
-wget https://github.com/idtunnel/sshtunnel/raw/master/centos/openvpn/centos.sh && chmod +x centos.sh && ./centos.sh
-
-# delete bash script installer
-rm -f /root/ssh-vpn.sh
-rm -f /root/centos.sh
-
-# finihsing
-clear
-neofetch
 netstat -ntlp
