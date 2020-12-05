@@ -1,0 +1,57 @@
+#script BBR
+#HideSSH
+#connecion Vmes , Shadowsock , SSR
+
+
+cd
+lsmod | grep bbr
+wget --no-check-certificate https://github.com/teddysun/across/raw/master/bbr.sh && chmod +x bbr.sh && ./bbr.sh
+
+
+sudo su
+lsmod | grep bbr
+2.install script bbr nya
+wget --no-check-certificate https://github.com/teddysun/across/raw/master/bbr.sh && chmod +x bbr.sh && ./bbr.sh
+ 
+3.edit
+nano /etc/sysctl.conf
+scroll sampai paling bawah,lalu masukan kode ini
+ 
+net.ipv4.tcp_congestion_control = bbr line
+fs.file-max = 51200
+net.core.rmem_max = 67108864
+net.core.wmem_max = 67108864
+net.core.netdev_max_backlog = 250000
+net.core.somaxconn = 4096
+net.ipv4.tcp_syncookies = 1
+net.ipv4.tcp_tw_reuse = 1
+net.ipv4.tcp_tw_recycle = 0
+net.ipv4.tcp_fin_timeout = 30
+net.ipv4.tcp_keepalive_time = 1200
+net.ipv4.ip_local_port_range = 10000 65000
+net.ipv4.tcp_max_syn_backlog = 8192
+net.ipv4.tcp_max_tw_buckets = 5000
+net.ipv4.tcp_fastopen = 3
+net.ipv4.tcp_mem = 25600 51200 102400
+net.ipv4.tcp_rmem = 4096 87380 67108864
+net.ipv4.tcp_wmem = 4096 65536 67108864
+net.ipv4.tcp_mtu_probing = 1
+ 
+# kemudian simpan ketik perintah
+CTRL + X dan kemudian pilih Y untuk simpan
+4.ketik perintah
+sysctl -p
+5.edit file ini ketik perintah
+nano /etc/security/limits.conf
+scroll paling bawah kemudian masukan kode ini
+* soft nofile 51200
+* hard nofile 51200
+# kemudian simpan ketik perintah
+CTRL + X dan kemudian pilih Y untuk simpan
+6. edit file ini ketik perintah
+nano /etc/pam.d/common-session
+lalu masukan kode
+session required pam_limits.so
+kalo sudah ada gak usah di edit
+7.hidupkan ulang vps nya ketik perintah
+reboot
