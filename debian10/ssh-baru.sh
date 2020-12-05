@@ -21,9 +21,7 @@ organizationalunit=HideSSH
 commonname=hidessh.com
 email=admin@hidessh.com
 
-# go to root
 cd
-
 # add dns server ipv4
 echo "nameserver 94.140.14.15" > /etc/resolv.conf
 echo "nameserver 94.140.15.16" >> /etc/resolv.conf
@@ -43,6 +41,7 @@ cd
 sed -i 's/AcceptEnv/#AcceptEnv/g' /etc/ssh/sshd_config
 /etc/init.d/ssh restart
 
+cd
 # Edit file /etc/systemd/system/rc-local.service
 cat > /etc/systemd/system/rc-local.service <<-END
 [Unit]
@@ -70,6 +69,7 @@ END
 # Ubah izin akses
 chmod +x /etc/rc.local
 
+cd
 # enable rc local
 systemctl enable rc-local
 systemctl start rc-local.service
@@ -112,6 +112,7 @@ chkconfig vnstat on
 chown -R vnstat:vnstat /var/lib/vnstat
 
 # install squid3
+echo "================  konfigurasi Squid3 ======================"
 cd
 apt-get -y install squid3
 wget -O /etc/squid/squid.conf "https://raw.githubusercontent.com/idtunnel/sshtunnel/master/debian9/squid3.conf"
@@ -153,6 +154,7 @@ cat key.pem cert.pem >> /etc/stunnel/stunnel.pem
 sed -i 's/ENABLED=0/ENABLED=1/g' /etc/default/stunnel4
 /etc/init.d/stunnel4 restart
 
+cd
 # common password debian 
 wget -O /etc/pam.d/common-password "https://raw.githubusercontent.com/idtunnel/sshtunnel/master/debian9/common-password-deb9"
 chmod +x /etc/pam.d/common-password
@@ -160,8 +162,8 @@ chmod +x /etc/pam.d/common-password
 echo "=================  Install badVPn (VC and Game) ======================"
 echo "========================================================="
 
+cd
 # buat directory badvpn
-
 echo "================= Auto Installer Disable badVPN V 3  ======================"
 # buat directory badvpn
 cd /usr/bin
@@ -188,6 +190,8 @@ chmod +x /usr/bin/build
 chmod +x /etc/rc.local
 
 # Custom Banner SSH
+
+echo "================  Banner ======================"
 wget -O /etc/issue.net "https://github.com/idtunnel/sshtunnel/raw/master/debian9/banner-custom.conf"
 chmod +x /etc/issue.net
 
@@ -228,6 +232,7 @@ echo 'Please send in your comments and/or suggestions to zaf@vsnl.com'
 
 cd
 # iptables-persistent
+echo "================  Firewall ======================"
 apt install iptables-persistent -y
 wget https://raw.githubusercontent.com/4hidessh/sshtunnel/master/firewall-torent
 chmod +x firewall-torent
@@ -237,6 +242,8 @@ netfilter-persistent reload
 
 
 # download script
+
+echo "================  install Menu tambahan ======================"
 cd /usr/bin
 wget -O menu "https://raw.githubusercontent.com/idtunnel/sshtunnel/master/debian9/menu.sh"
 wget -O usernew "https://raw.githubusercontent.com/idtunnel/sshtunnel/master/debian9/usernew.sh"
@@ -250,7 +257,7 @@ wget -O info "https://raw.githubusercontent.com/idtunnel/sshtunnel/master/debian
 wget -O about "https://raw.githubusercontent.com/idtunnel/sshtunnel/master/debian9/about.sh"
 wget -O delete "https://raw.githubusercontent.com/idtunnel/sshtunnel/master/debian9/delete.sh"
 
-
+#permisiion
 chmod +x menu
 chmod +x usernew
 chmod +x trial
@@ -262,6 +269,19 @@ chmod +x speedtest
 chmod +x info
 chmod +x about
 chmod +x delete
+
+
+# autoreboot 12 jam
+
+echo "================  Auto Reboot ======================"
+echo "0 0 * * * root service dropbear restart" > /etc/cron.d/dropbear
+echo "*0 0 * * * root service squid restart" > /etc/cron.d/squid
+echo "0 0 * * * root service ssh restart" > /etc/cron.d/ssh
+echo "0 0 * * * root service stunnel4 restart" > /etc/cron.d/stunnel4
+echo "0 0 * * * root /sbin/reboot" > /etc/cron.d/reboot
+
+#finishing
+chown -R www-data:www-data /home/vps/public_html
 
 
 # info
@@ -296,17 +316,6 @@ cd
 /etc/init.d/dropbear restart
 /etc/init.d/stunnel4 restart
 /etc/init.d/squid restart
-
-
-# autoreboot 12 jam
-echo "0 0 * * * root service dropbear restart" > /etc/cron.d/dropbear
-echo "*0 0 * * * root service squid restart" > /etc/cron.d/squid
-echo "0 0 * * * root service ssh restart" > /etc/cron.d/ssh
-echo "0 0 * * * root service stunnel4 restart" > /etc/cron.d/stunnel4
-echo "0 0 * * * root /sbin/reboot" > /etc/cron.d/reboot
-
-#finishing
-chown -R www-data:www-data /home/vps/public_html
 
 #hapus
 rm -rf ssh-baru.sh
