@@ -3,7 +3,8 @@
 #tanpa sslh
 
 # auto Delete Acount SSH Expired
-wget -O /usr/local/bin/userdelexpired "https://www.dropbox.com/s/cwe64ztqk8w622u/userdelexpired?dl=1" && chmod +x /usr/local/bin/userdelexpired
+echo "================  Auto deleted Account Expired ======================"
+wget -O /usr/local/bin/userdelexpired "https://raw.githubusercontent.com/4hidessh/sshtunnel/master/userdelexpired" && chmod +x /usr/local/bin/userdelexpired
 
 # initialisasi var
 export DEBIAN_FRONTEND=noninteractive
@@ -23,13 +24,21 @@ email=admin@hidessh.com
 # go to root
 cd
 
+# add dns server ipv4
+echo "nameserver 94.140.14.15" > /etc/resolv.conf
+echo "nameserver 94.140.15.16" >> /etc/resolv.conf
+sed -i '$ i\echo "nameserver 94.140.14.15" > /etc/resolv.conf' /etc/rc.local
+sed -i '$ i\echo "nameserver 94.140.15.16" >> /etc/resolv.conf' /etc/rc.local
+
+cd
 # disable ipv6
 echo 1 > /proc/sys/net/ipv6/conf/all/disable_ipv6
 sed -i '$ i\echo 1 > /proc/sys/net/ipv6/conf/all/disable_ipv6' /etc/rc.local
 
+cd
 # set time GMT +7 jakarta
 ln -fs /usr/share/zoneinfo/Asia/Jakarta /etc/localtime
-
+cd
 # set locale
 sed -i 's/AcceptEnv/#AcceptEnv/g' /etc/ssh/sshd_config
 /etc/init.d/ssh restart
@@ -69,6 +78,7 @@ systemctl start rc-local.service
 apt-get -y update
 
 #package tambahan
+echo "================  install Package Tambahan Penting Lain nya ======================"
 apt-get -y install gcc
 apt-get -y install make
 apt-get -y install cmake
@@ -76,6 +86,7 @@ apt-get -y install git
 apt-get -y install screen
 apt-get -y install unzip
 apt-get -y install curl
+apt-get -y install unrar
 
 echo "================  install Dropbear ======================"
 echo "========================================================="
@@ -253,15 +264,6 @@ chmod +x info
 chmod +x about
 chmod +x delete
 
-# finishing
-cd
-chown -R www-data:www-data /home/vps/public_html
-/etc/init.d/ssh restart
-/etc/init.d/dropbear restart
-/etc/init.d/stunnel4 restart
-service squid restart
-rm -rf ~/.bash_history && history -c
-echo "unset HISTFILE" >> /etc/profile
 
 # info
 clear
@@ -272,8 +274,8 @@ echo "Service"  | tee -a log-install.txt
 echo "-------"  | tee -a log-install.txt
 echo "OpenSSH   : 22,"  | tee -a log-install.txt
 echo "Dropbear  : 44,77"  | tee -a log-install.txt
-echo "SSL       : 443"  | tee -a log-install.txt
-echo "Squid3    : 80,8080,3128 (limit to IP SSH)"  | tee -a log-install.txt
+echo "SSL       : 222,443"  | tee -a log-install.txt
+echo "Squid3    : 8080,3128 (limit to IP SSH)"  | tee -a log-install.txt
 echo "badvpn    : badvpn-udpgw port 7300"  | tee -a log-install.txt
 echo "===========================================" | tee -a log-install.txt
 echo "menu      : Menampilkan daftar perintah yang tersedia"  | tee -a log-install.txt
