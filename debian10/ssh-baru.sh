@@ -1,8 +1,8 @@
 #!/bin/bash
-#created : HideSSH 20202
+#created : HideSSH 2020
 #tanpa sslh
 
-# auto Delete Acount SSH Expired
+# Delete Acount SSH Expired
 echo "================  Auto deleted Account Expired ======================"
 wget -O /usr/local/bin/userdelexpired "https://raw.githubusercontent.com/4hidessh/sshtunnel/master/userdelexpired" && chmod +x /usr/local/bin/userdelexpired
 
@@ -250,7 +250,6 @@ wget -O info "https://raw.githubusercontent.com/idtunnel/sshtunnel/master/debian
 wget -O about "https://raw.githubusercontent.com/idtunnel/sshtunnel/master/debian9/about.sh"
 wget -O delete "https://raw.githubusercontent.com/idtunnel/sshtunnel/master/debian9/delete.sh"
 
-echo "0 0 * * * root /sbin/reboot" > /etc/cron.d/reboot
 
 chmod +x menu
 chmod +x usernew
@@ -297,6 +296,17 @@ cd
 /etc/init.d/dropbear restart
 /etc/init.d/stunnel4 restart
 /etc/init.d/squid restart
+
+
+# autoreboot 12 jam
+echo "0 0 * * * root service dropbear restart" > /etc/cron.d/dropbear
+echo "*0 0 * * * root service squid restart" > /etc/cron.d/squid
+echo "0 0 * * * root service ssh restart" > /etc/cron.d/ssh
+echo "0 0 * * * root service stunnel4 restart" > /etc/cron.d/stunnel4
+echo "0 0 * * * root /sbin/reboot" > /etc/cron.d/reboot
+
+#finishing
+chown -R www-data:www-data /home/vps/public_html
 
 #hapus
 rm -rf ssh-baru.sh
