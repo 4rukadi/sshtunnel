@@ -64,12 +64,6 @@ END
 chmod +x /etc/rc.local
 
 cd
-# add dns server ipv4
-echo "nameserver 94.140.14.15" > /etc/resolv.conf
-echo "nameserver 94.140.15.16" >> /etc/resolv.conf
-
-
-cd
 # enable rc local
 systemctl enable rc-local
 systemctl start rc-local.service
