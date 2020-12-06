@@ -39,7 +39,7 @@ dnf install epel-release -y
 yum -y update
 
 # install webserver
-yum -y install nginx php-fpm php-cli iptables
+yum -y install nginx php-fpm php-cli 
 service nginx restart
 service php-fpm restart
 chkconfig nginx on
@@ -179,12 +179,7 @@ iptables -A INPUT -i eth0 -m state --state NEW -p tcp --dport 7300 -j ACCEPT
 iptables -A INPUT -i eth0 -m state --state NEW -p udp --dport 7300 -j ACCEPT
 
 cd
-wget https://raw.githubusercontent.com/4hidessh/sshtunnel/master/firewall-torent
-chmod +x firewall-torent
-bash firewall-torent
-netfilter-persistent save
-netfilter-persistent reload 
-service iptables save
+
 
 # downlaod script
 cd /usr/bin
