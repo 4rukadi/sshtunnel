@@ -33,7 +33,7 @@ sed -i '$ i\echo 1 > /proc/sys/net/ipv6/conf/all/disable_ipv6' /etc/rc.d/rc.loca
 # install wget and curl
 yum -y install wget curl
 
-dnf install epel-release -y
+#dnf install epel-release -y
 
 # remove unused
 yum -y remove sendmail;
@@ -44,7 +44,7 @@ yum -y remove cyrus-sasl
 yum -y update
 
 # install webserver
-yum -y install nginx php-fpm php-cli
+yum -y install nginx php-fpm php-cli iptables-persistent
 service nginx restart
 service php-fpm restart
 chkconfig nginx on
@@ -70,25 +70,6 @@ chmod -R +rx /home/vps
 service php-fpm restart
 service nginx restart
 
-# install mrtg
-cd /etc/snmp/
-wget -O /etc/snmp/snmpd.conf "https://raw.githubusercontent.com/idtunnel/sshtunnel/master/centos/snmpd.conf"
-wget -O /root/mrtg-mem.sh "https://raw.githubusercontent.com/idtunnel/sshtunnel/master/centos/mrtg-mem.sh"
-chmod +x /root/mrtg-mem.sh
-service snmpd restart
-chkconfig snmpd on
-snmpwalk -v 1 -c public localhost | tail
-mkdir -p /home/vps/public_html/mrtg
-cfgmaker --zero-speed 100000000 --global 'WorkDir: /home/vps/public_html/mrtg' --output /etc/mrtg/mrtg.cfg public@localhost
-curl "https://raw.githubusercontent.com/whitevps2/portalssh/master/conf/mrtg.conf" >> /etc/mrtg/mrtg.cfg
-sed -i 's/WorkDir: \/var\/www\/mrtg/# WorkDir: \/var\/www\/mrtg/g' /etc/mrtg/mrtg.cfg
-sed -i 's/# Options\[_\]: growright, bits/Options\[_\]: growright/g' /etc/mrtg/mrtg.cfg
-indexmaker --output=/home/vps/public_html/mrtg/index.html /etc/mrtg/mrtg.cfg
-echo "0-59/5 * * * * root env LANG=C /usr/bin/mrtg /etc/mrtg/mrtg.cfg" > /etc/cron.d/mrtg
-LANG=C /usr/bin/mrtg /etc/mrtg/mrtg.cfg
-LANG=C /usr/bin/mrtg /etc/mrtg/mrtg.cfg
-LANG=C /usr/bin/mrtg /etc/mrtg/mrtg.cfg
-
 # setting port ssh
 cd
 wget -O /etc/bannerssh.txt "https://raw.githubusercontent.com/idtunnel/sshtunnel/master/centos/banner.conf"
@@ -111,18 +92,6 @@ chkconfig dropbear on
 service iptables save
 service iptables restart
 chkconfig iptables on
-
-# install vnstat gui
-cd /home/vps/public_html/
-wget https://raw.githubusercontent.com/idtunnel/sshtunnel/master/centos/vnstat_php_frontend-1.5.1.tar.gz
-tar xf vnstat_php_frontend-1.5.1.tar.gz
-rm vnstat_php_frontend-1.5.1.tar.gz
-mv vnstat_php_frontend-1.5.1 vnstat
-cd vnstat
-sed -i "s/\$iface_list = array('eth0', 'sixxs');/\$iface_list = array('eth0');/g" config.php
-sed -i "s/\$language = 'nl';/\$language = 'en';/g" config.php
-sed -i 's/Internal/Internet/g' config.php
-sed -i '/SixXS IPv6/d' config.php
 
 # install fail2ban
 cd
@@ -209,56 +178,17 @@ cd
 #permission 
 chmod +x /etc/rc.d/rc.local
 chmod +x /etc/rc.local
-
+cd
 # Sett iptables badvpn
 iptables -A INPUT -i eth0 -m state --state NEW -p tcp --dport 7300 -j ACCEPT
-iptables -A INPUT -i eth0 -m state --state NEW -p tcp --dport 7200 -j ACCEPT
-service iptables save
-
-# Save & restore IPTABLES Centos 6 64bit
-wget -O /etc/iptables.up.rules "https://raw.githubusercontent.com/idtunnel/sshtunnel/master/centos/iptables.up.rules"
-sed -i '$ i\iptables-restore < /etc/iptables.up.rules' /etc/rc.local
-sed -i '$ i\iptables-restore < /etc/iptables.up.rules' /etc/rc.d/rc.local
-MYIP=`curl icanhazip.com`;
-MYIP2="s/xxxxxxxxx/$MYIP/g";
-sed -i $MYIP2 /etc/iptables.up.rules;
-sed -i 's/venet0/eth0/g' /etc/iptables.up.rules
-iptables-restore < /etc/iptables.up.rules
-sysctl -w net.ipv4.ip_forward=1
-sed -i 's/net.ipv4.ip_forward = 0/net.ipv4.ip_forward = 1/g' /etc/sysctl.conf
-cp /etc/sysconfig/iptables /etc/iptables.up.rules
-chmod +x /etc/iptables.up.rules
-chkconfig openvpn on
-service iptables restart
-service openvpn restart
+iptables -A INPUT -i eth0 -m state --state NEW -p udp --dport 7300 -j ACCEPT
 cd
-
-# permition rc local
-chmod +x /etc/rc.local
-chmod +x /etc/rc.d/rc.local
-
-
-# Akun SSH dan VPN Lifetime
-PASS=`cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 15 | head -n 1`;
-useradd -M -s /bin/false dayatdacung
-echo "dayatdacung:$PASS" | chpasswd
-echo "dayatdacung" > pass.txt
-echo "$PASS" >> pass.txt
-
-##security limite login 
-#wget -O /etc/security/limits.conf "https://github.com/idtunnel/sshtunnel/master/centos/limits.conf"
-#chmod +x /etc/security/limits.conf
-
-## limite login
-#iptables -A INPUT -p tcp --syn --dport 22 -m connlimit --connlimit-above 2 -j REJECT
-#iptables -A INPUT -p tcp --syn --dport 143 -m connlimit --connlimit-above 2 -j REJECT
-#iptables -A INPUT -p tcp --syn --dport 109 -m connlimit --connlimit-above 2 -j REJECT
-#iptables -A INPUT -p tcp --syn --dport 110 -m connlimit --connlimit-above 2 -j REJECT
-#iptables -A INPUT -p tcp --syn --dport 456 -m connlimit --connlimit-above 2 -j REJECT
-#iptables -A INPUT -p tcp --syn --dport 443 -m connlimit --connlimit-above 2 -j REJECT
-#service iptables save
-#service iptables restart
-#chkconfig iptables on
+wget https://raw.githubusercontent.com/4hidessh/sshtunnel/master/firewall-torent
+chmod +x firewall-torent
+bash firewall-torent
+netfilter-persistent save
+netfilter-persistent reload 
+service iptables save
 
 # downlaod script
 cd /usr/bin
@@ -314,15 +244,10 @@ ln -fs /usr/share/zoneinfo/Asia/Jakarta /etc/localtime
 # finalisasi
 chown -R nginx:nginx /home/vps/public_html
 /etc/init.d/nginx restart
-/etc/init.d/php-fpm restart
-/etc/init.d/vnstat restart
-/etc/init.d/snmpd restart
 /etc/init.d/sshd restart
 /etc/init.d/dropbear restart
 /etc/init.d/stunnel restart
 /etc/init.d/squid restart
-/etc/init.d/webmin restart
-/etc/init.d/fail2ban restart
 /etc/init.d/crond restart
 chkconfig crond on
 
@@ -381,5 +306,3 @@ echo "----------"  | tee -a log-install.txt
 
 echo ""  | tee -a log-install.txt
 echo "==============================================="  | tee -a log-install.txt
-
-netstat -ntlp
