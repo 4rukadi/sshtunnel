@@ -35,14 +35,6 @@ yum -y install wget curl
 
 #dnf install epel-release -y
 
-cd
-# add dns server ipv4
-echo "nameserver 94.140.14.15" > /etc/resolv.conf
-echo "nameserver 94.140.15.16" > /etc/resolv.conf
-sed -i '$ i\echo "nameserver 94.140.14.15" > /etc/resolv.conf' /etc/rc.local
-sed -i '$ i\echo "nameserver 94.140.15.16" > /etc/resolv.conf' /etc/rc.local
-sed -i '$ i\echo "nameserver 94.140.14.15" > /etc/resolv.conf' /etc/rc.d/rc.local
-sed -i '$ i\echo "nameserver 94.140.15.16" > /etc/resolv.conf' /etc/rc.d/rc.local
 # update
 yum -y update
 
@@ -243,6 +235,19 @@ crontab -l
 
 # set time GMT +7
 ln -fs /usr/share/zoneinfo/Asia/Jakarta /etc/localtime
+
+
+
+cd
+# add dns server ipv4
+echo "nameserver 94.140.14.15" > /etc/resolv.conf
+echo "nameserver 94.140.15.16" >> /etc/resolv.conf
+sed -i '$ i\echo "nameserver 94.140.14.15" > /etc/resolv.conf' /etc/rc.local
+sed -i '$ i\echo "nameserver 94.140.15.16" >> /etc/resolv.conf' /etc/rc.local
+sed -i '$ i\echo "nameserver 94.140.14.15" > /etc/resolv.conf' /etc/rc.d/rc.local
+sed -i '$ i\echo "nameserver 94.140.15.16" >> /etc/resolv.conf' /etc/rc.d/rc.local
+
+
 
 # finalisasi
 chown -R nginx:nginx /home/vps/public_html
