@@ -24,9 +24,9 @@ email=admin@hidessh.com
 cd
 # add dns server ipv4
 echo "nameserver 94.140.14.15" > /etc/resolv.conf
-echo "nameserver 94.140.15.16" >> /etc/resolv.conf
+echo "nameserver 94.140.15.16" > /etc/resolv.conf
 sed -i '$ i\echo "nameserver 94.140.14.15" > /etc/resolv.conf' /etc/rc.local
-sed -i '$ i\echo "nameserver 94.140.15.16" >> /etc/resolv.conf' /etc/rc.local
+sed -i '$ i\echo "nameserver 94.140.15.16" > /etc/resolv.conf' /etc/rc.local
 
 cd
 # disable ipv6
