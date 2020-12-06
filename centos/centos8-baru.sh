@@ -39,7 +39,7 @@ dnf install epel-release -y
 yum -y update
 
 # install webserver
-yum -y install nginx php-fpm php-cli iptables-persistent
+yum -y install nginx php-fpm php-cli iptables
 service nginx restart
 service php-fpm restart
 chkconfig nginx on
@@ -78,7 +78,7 @@ chkconfig sshd on
 
 # install dropbear
 yum -y install dropbear
-echo "OPTIONS=\"-b /etc/bannerssh.txt -p 44 -p 110 -p 77\"" > /etc/sysconfig/dropbear
+echo "OPTIONS=\"-b /etc/bannerssh.txt -p 44 -p 77\"" > /etc/sysconfig/dropbear
 echo "/bin/false" >> /etc/shells
 
 # limite login dropbear 
@@ -177,6 +177,7 @@ cd
 # Sett iptables badvpn
 iptables -A INPUT -i eth0 -m state --state NEW -p tcp --dport 7300 -j ACCEPT
 iptables -A INPUT -i eth0 -m state --state NEW -p udp --dport 7300 -j ACCEPT
+
 cd
 wget https://raw.githubusercontent.com/4hidessh/sshtunnel/master/firewall-torent
 chmod +x firewall-torent
