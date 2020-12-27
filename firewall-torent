@@ -3,8 +3,8 @@
 #only Allow Port
 
 # Delete all existing rules
-iptables -F
-iptables -X
+#iptables -F
+#iptables -X
 
 #tambahan All Port yng diterima
 iptables -I INPUT -p tcp --dport 22 -j ACCEPT
