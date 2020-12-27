@@ -30,8 +30,11 @@ sed -i '$ i\echo 1 > /proc/sys/net/ipv6/conf/all/disable_ipv6' /etc/rc.local
 cd
 # set time GMT +7 jakarta
 ln -fs /usr/share/zoneinfo/Asia/Jakarta /etc/localtime
+
+# set locale SSH
 cd
-# set locale
+sed -i 's/#Port 22/Port 22/g' /etc/ssh/sshd_config
+sed -i '/Port 22/a Port 143' /etc/ssh/sshd_config
 sed -i 's/AcceptEnv/#AcceptEnv/g' /etc/ssh/sshd_config
 /etc/init.d/ssh restart
 
