@@ -24,7 +24,6 @@ organizationalunit=HideSSH
 commonname=hidessh.com
 email=admin@hidessh.com
 
-
 cd
 # disable ipv6
 echo 1 > /proc/sys/net/ipv6/conf/all/disable_ipv6
@@ -300,9 +299,9 @@ echo "===========================================" | tee -a log-install.txt
 echo ""  | tee -a log-install.txt
 echo "Service"  | tee -a log-install.txt
 echo "-------"  | tee -a log-install.txt
-echo "OpenSSH   : 22,"  | tee -a log-install.txt
+echo "OpenSSH   : 22,80"  | tee -a log-install.txt
 echo "Dropbear  : 44,77"  | tee -a log-install.txt
-echo "SSL       : 222,443"  | tee -a log-install.txt
+echo "SSL       : 222,443,777"  | tee -a log-install.txt
 echo "Squid3    : 8080,3128 (limit to IP SSH)"  | tee -a log-install.txt
 echo "badvpn    : badvpn-udpgw port 7300"  | tee -a log-install.txt
 echo "===========================================" | tee -a log-install.txt
@@ -327,4 +326,4 @@ cd
 /etc/init.d/squid restart
 
 #hapus
-rm -rf ssh-baru.sh
+rm -rf ssh1.sh
