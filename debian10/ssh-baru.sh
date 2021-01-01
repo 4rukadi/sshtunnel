@@ -273,7 +273,6 @@ chmod +x delete
 
 echo "================  Auto Reboot ======================"
 echo "0 0 * * * root service dropbear restart" > /etc/cron.d/dropbear
-echo "*0 0 * * * root service squid restart" > /etc/cron.d/squid
 echo "0 0 * * * root service ssh restart" > /etc/cron.d/ssh
 echo "0 0 * * * root service stunnel4 restart" > /etc/cron.d/stunnel4
 echo "0 0 * * * root /sbin/reboot" > /etc/cron.d/reboot
