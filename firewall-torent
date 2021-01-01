@@ -38,6 +38,8 @@ iptables -I INPUT -p udp --dport 1024:1193 -j DROP
 iptables -I INPUT -p udp --dport 1195:1644 -j DROP
 iptables -I INPUT -p udp --dport 1647:65534 -j ACCEPT
 
+#allow 2 connetion
+sudo iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 
 #allow ping server 
 iptables -A INPUT -p icmp -j ACCEPT
