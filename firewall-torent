@@ -38,6 +38,10 @@ iptables -I INPUT -p udp --dport 1024:1193 -j DROP
 iptables -I INPUT -p udp --dport 1195:1644 -j DROP
 iptables -I INPUT -p udp --dport 1647:65534 -j ACCEPT
 
+
+#allow ping server 
+iptables -A INPUT -p icmp -j ACCEPT
+
 ## Drop torrents
 iptables -A OUTPUT -p tcp --dport 6881:6889 -j DROP
 iptables -A OUTPUT -p udp --dport 1024:65534 -j DROP
@@ -149,6 +153,5 @@ iptables -D FORWARD -m string --algo bm --string "announce" -j DROP
 iptables -D FORWARD -m string --algo bm --string "info_hash" -j DROP
 iptables -D FORWARD -m string --algo bm --string "tracker" -j DROP
 
-#simpan iptunnel
-iptables-save
-iptables-save> /etc/iptables/rules.v4
+#all input tanpa izin drop
+iptables -D INPUT DROP
