@@ -228,17 +228,6 @@ echo 'Config file is at /usr/local/ddos/ddos.conf'
 echo 'Please send in your comments and/or suggestions to zaf@vsnl.com'
 
 
-cd
-# iptables-persistent
-echo "================  Firewall ======================"
-apt install iptables-persistent -y
-wget https://raw.githubusercontent.com/4hidessh/sshtunnel/master/firewall-torent
-chmod +x firewall-torent
-bash firewall-torent
-netfilter-persistent save
-netfilter-persistent reload 
-
-
 # download script
 
 echo "================  install Menu tambahan ======================"
