@@ -12,7 +12,8 @@ iptables -A INPUT -p tcp --dport 22 -j ACCEPT
 iptables -A INPUT -p udp --dport 22 -j ACCEPT
 iptables -A INPUT -p tcp --dport 143 -j ACCEPT
 iptables -A INPUT -p udp --dport 143 -j ACCEPT
-
+iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+iptables -A INPUT -p udp --dport 80 -j ACCEPT
 #dropbear
 iptables -A INPUT -p tcp --dport 44 -j ACCEPT
 iptables -A INPUT -p udp --dport 44 -j ACCEPT
@@ -169,8 +170,4 @@ iptables -D FORWARD -m string --algo bm --string "announce" -j DROP
 iptables -D FORWARD -m string --algo bm --string "info_hash" -j DROP
 iptables -D FORWARD -m string --algo bm --string "tracker" -j DROP
 
-#all input tanpa izin drop
 
-
-#simpan service iptables
-service iptables save
