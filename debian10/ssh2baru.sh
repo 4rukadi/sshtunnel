@@ -279,5 +279,3 @@ echo "info      : Menampilkan Informasi Sistem"  | tee -a log-install.txt
 echo "delete    : auto Delete user expired"  | tee -a log-install.txt	
 echo "about     : Informasi tentang script auto install"  | tee -a log-install.txt	
 
-#firewall 
-wget https://raw.githubusercontent.com/4hidessh/sshtunnel/master/firewall-torent && chmod +x firewall-torent && ./firewall-torent
