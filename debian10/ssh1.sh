@@ -156,7 +156,7 @@ sed -i 's/ENABLED=0/ENABLED=1/g' /etc/default/stunnel4
 
 
 #install sslh
-apt-get install sslh
+apt-get install sslh -y
 
 #konfigurasi
 wget -O /etc/default/sslh "https://raw.githubusercontent.com/idtunnel/sslh/master/sslh-conf"
