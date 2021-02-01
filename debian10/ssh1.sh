@@ -104,12 +104,6 @@ echo "/usr/sbin/nologin" >> /etc/shells
 echo "=================  install Squid3  ======================"
 echo "========================================================="
 
-# setting dan install vnstat debian 9 64bit
-apt-get -y install vnstat
-systemctl start vnstat
-systemctl enable vnstat
-chkconfig vnstat on
-chown -R vnstat:vnstat /var/lib/vnstat
 
 # install squid3
 echo "================  konfigurasi Squid3 ======================"
@@ -185,8 +179,8 @@ make install
 make -i install
 
 # auto start badvpn single port
-sed -i '$ i\screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300 --max-clients 1000 --max-connections-for-client 10' /etc/rc.local
-screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300 --max-clients 500 --max-connections-for-client 20 &
+sed -i '$ i\screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300 --max-clients 1000 --max-connections-for-client 100' /etc/rc.local
+screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300 --max-clients 500 --max-connections-for-client 100 &
 cd
 
 # permition
@@ -283,10 +277,6 @@ chmod +x delete
 
 echo "================  Auto Reboot ======================"
 echo "0 0 * * * root /sbin/reboot" > /etc/cron.d/reboot
-
-#finishing
-chown -R www-data:www-data /home/vps/public_html
-
 
 # info
 clear
