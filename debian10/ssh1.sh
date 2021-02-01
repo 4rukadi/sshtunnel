@@ -9,10 +9,11 @@ apt-get install wget curl -y
 echo "================  Auto deleted Account Expired ======================"
 wget -O /usr/local/bin/userdelexpired "https://raw.githubusercontent.com/4hidessh/sshtunnel/master/userdelexpired" && chmod +x /usr/local/bin/userdelexpired
 
-# initialisasi var
+
+# initializing var
 export DEBIAN_FRONTEND=noninteractive
 OS=`uname -m`;
-MYIP=`ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0'`;
+MYIP=$(wget -qO- ipv4.icanhazip.com);
 MYIP2="s/xxxxxxxxx/$MYIP/g";
 
 # detail nama perusahaan
