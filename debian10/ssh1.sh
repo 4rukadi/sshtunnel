@@ -74,8 +74,8 @@ apt-get -y update
 
 cd
 # disable ipv6
-#echo 1 > /proc/sys/net/ipv6/conf/all/disable_ipv6
-#sed -i '$ i\echo 1 > /proc/sys/net/ipv6/conf/all/disable_ipv6' /etc/rc.local
+echo 1 > /proc/sys/net/ipv6/conf/all/disable_ipv6
+sed -i '$ i\echo 1 > /proc/sys/net/ipv6/conf/all/disable_ipv6' /etc/rc.local
 
 #package tambahan
 echo "================  install Package Tambahan Penting Lain nya ======================"
