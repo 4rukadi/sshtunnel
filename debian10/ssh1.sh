@@ -88,6 +88,8 @@ apt-get -y install screen
 apt-get -y install unzip
 apt-get -y install curl
 apt-get -y install unrar
+apt-get -y install dnsutils net-tools tcpdump grepcidr
+apt-get install dsniff -y
 
 echo "================  install Dropbear ======================"
 echo "========================================================="
@@ -204,34 +206,13 @@ echo "DROPBEAR_BANNER="/etc/issue.net"" >> /etc/default/dropbear
 # install fail2ban
 apt-get -y install fail2ban
 service fail2ban restart
+cd
 
 # Instal DDOS Flate
-if [ -d '/usr/local/ddos' ]; then
-	echo; echo; echo "Please un-install the previous version first"
-	exit 0
-else
-	mkdir /usr/local/ddos
-fi
-clear
-echo; echo 'Installing DOS-Deflate 0.6'; echo
-echo; echo -n 'Downloading source files...'
-wget -q -O /usr/local/ddos/ddos.conf http://www.inetbase.com/scripts/ddos/ddos.conf
-echo -n '.'
-wget -q -O /usr/local/ddos/LICENSE http://www.inetbase.com/scripts/ddos/LICENSE
-echo -n '.'
-wget -q -O /usr/local/ddos/ignore.ip.list http://www.inetbase.com/scripts/ddos/ignore.ip.list
-echo -n '.'
-wget -q -O /usr/local/ddos/ddos.sh http://www.inetbase.com/scripts/ddos/ddos.sh
-chmod 0755 /usr/local/ddos/ddos.sh
-cp -s /usr/local/ddos/ddos.sh /usr/local/sbin/ddos
-echo '...done'
-echo; echo -n 'Creating cron to run script every minute.....(Default setting)'
-/usr/local/ddos/ddos.sh --cron > /dev/null 2>&1
-echo '.....done'
-echo; echo 'Installation has completed.'
-echo 'Config file is at /usr/local/ddos/ddos.conf'
-echo 'Please send in your comments and/or suggestions to zaf@vsnl.com'
-
+wget https://github.com/jgmdev/ddos-deflate/archive/master.zip -O ddos.zip
+unzip ddos.zip
+cd ddos-deflate-master
+./install.sh
 
 cd
 # iptables-persistent
@@ -279,31 +260,6 @@ chmod +x delete
 echo "================  Auto Reboot ======================"
 echo "0 0 * * * root /sbin/reboot" > /etc/cron.d/reboot
 
-# info
-clear
-echo "Autoscript Include:" | tee log-install.txt
-echo "===========================================" | tee -a log-install.txt
-echo ""  | tee -a log-install.txt
-echo "Service"  | tee -a log-install.txt
-echo "-------"  | tee -a log-install.txt
-echo "OpenSSH   : 22,80"  | tee -a log-install.txt
-echo "Dropbear  : 44,77"  | tee -a log-install.txt
-echo "SSL       : 222,443,777"  | tee -a log-install.txt
-echo "Squid3    : 8080,3128 (limit to IP SSH)"  | tee -a log-install.txt
-echo "badvpn    : badvpn-udpgw port 7300"  | tee -a log-install.txt
-echo "===========================================" | tee -a log-install.txt
-echo "menu      : Menampilkan daftar perintah yang tersedia"  | tee -a log-install.txt
-echo "usernew   : Membuat Akun SSH"  | tee -a log-install.txt
-echo "trial     : Membuat Akun Trial"  | tee -a log-install.txt
-echo "hapus     : Menghapus Akun SSH"  | tee -a log-install.txt
-echo "cek       : Cek User Login"  | tee -a log-install.txt
-echo "member    : Cek Member SSH"  | tee -a log-install.txt
-echo "jurus69   : Restart Service dropbear, squid3, stunnel4, vpn, ssh)"  | tee -a log-install.txt
-echo "reboot    : Reboot VPS"  | tee -a log-install.txt
-echo "speedtest : Speedtest VPS"  | tee -a log-install.txt
-echo "info      : Menampilkan Informasi Sistem"  | tee -a log-install.txt
-echo "delete    : auto Delete user expired"  | tee -a log-install.txt
-echo "about     : Informasi tentang script auto install"  | tee -a log-install.txt
 
 #auto Reboot Service Setelah Selesai
 cd
