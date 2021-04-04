@@ -137,7 +137,7 @@ connect = 127.0.0.1:44
 accept = 777
 connect = 127.0.0.1:77
 [ssldropbear]
-accept = 3232
+accept = 3222
 connect = 127.0.0.1:3128
 [ssldropbear]
 accept = 8181
