@@ -32,7 +32,7 @@ ln -fs /usr/share/zoneinfo/Asia/Jakarta /etc/localtime
 # set locale SSH
 cd
 sed -i 's/#Port 22/Port 22/g' /etc/ssh/sshd_config
-sed -i '/Port 22/a Port 80' /etc/ssh/sshd_config
+sed -i '/Port 22/a Port 85' /etc/ssh/sshd_config
 sed -i 's/AcceptEnv/#AcceptEnv/g' /etc/ssh/sshd_config
 /etc/init.d/ssh restart
 
@@ -112,7 +112,7 @@ echo "========================================================="
 echo "================  konfigurasi Squid3 ======================"
 cd
 apt-get -y install squid3
-wget -O /etc/squid/squid.conf "https://raw.githubusercontent.com/idtunnel/sshtunnel/master/debian9/squid3.conf"
+wget -O /etc/squid/squid.conf "https://raw.githubusercontent.com/4hidessh/sshtunnel/master/debian10/config/squid3"
 sed -i $MYIP2 /etc/squid/squid.conf;
 /etc/init.d/squid restart
 
@@ -136,6 +136,13 @@ connect = 127.0.0.1:44
 [ssldropbear]
 accept = 777
 connect = 127.0.0.1:77
+[ssldropbear]
+accept = 3232
+connect = 127.0.0.1:3128
+[ssldropbear]
+accept = 8181
+connect = 127.0.0.1:8888
+
 END
 
 echo "=================  membuat Sertifikat OpenSSL ======================"
@@ -217,9 +224,9 @@ cd
 # iptables-persistent
 echo "================  Firewall ======================"
 apt install iptables-persistent -y
-wget https://raw.githubusercontent.com/4hidessh/sshtunnel/master/firewall-torent
-chmod +x firewall-torent
-bash firewall-torent
+wget https://raw.githubusercontent.com/4hidessh/hidessh/main/security/torrent
+chmod +x torrent
+bash torrent
 netfilter-persistent save
 netfilter-persistent reload 
 
