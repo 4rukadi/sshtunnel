@@ -9,16 +9,13 @@ acl SSL_ports port 777
 acl SSL_ports port 569 
 acl SSL_ports port 8181 
 acl SSL_ports port 3222 
-acl Safe_ports port 80
+acl Safe_ports port 85
 acl Safe_ports port 22
-acl Safe_ports port 443
 acl Safe_ports port 77
 acl Safe_ports port 44
 acl Safe_ports port 1025-65535
-acl Safe_ports port 222
 acl Safe_ports port 488
 acl Safe_ports port 591
-acl Safe_ports port 777
 acl CONNECT method CONNECT
 acl SSH dst xxxxxxxxx
 acl SSH dst 202.152.240.50
