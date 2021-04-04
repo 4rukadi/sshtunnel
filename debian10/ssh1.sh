@@ -136,12 +136,6 @@ connect = 127.0.0.1:44
 [ssldropbear]
 accept = 777
 connect = 127.0.0.1:77
-[sslsquid]
-accept = 3232
-connect = 127.0.0.1:3128
-[sslsquid]
-accept = 8181
-connect = 127.0.0.1:8888
 END
 
 echo "=================  membuat Sertifikat OpenSSL ======================"
