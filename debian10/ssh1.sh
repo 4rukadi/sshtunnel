@@ -127,16 +127,21 @@ client = no
 socket = a:SO_REUSEADDR=1
 socket = l:TCP_NODELAY=1
 socket = r:TCP_NODELAY=1
-[dropbear]
+[sslssh]
 accept = 222
 connect = 127.0.0.1:22
-[dropbear]
+[ssldropbear]
 accept = 444
 connect = 127.0.0.1:44
-[dropbear]
+[ssldropbear]
 accept = 777
 connect = 127.0.0.1:77
-
+[sslsquid]
+accept = 3129
+connect = 127.0.0.1:3128
+[sslsquid]
+accept = 8181
+connect = 127.0.0.1:8888
 END
 
 echo "=================  membuat Sertifikat OpenSSL ======================"
