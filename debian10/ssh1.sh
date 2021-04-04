@@ -137,7 +137,7 @@ connect = 127.0.0.1:44
 accept = 777
 connect = 127.0.0.1:77
 [sslsquid]
-accept = 3129
+accept = 3232
 connect = 127.0.0.1:3128
 [sslsquid]
 accept = 8181
