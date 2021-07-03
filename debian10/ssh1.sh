@@ -213,7 +213,7 @@ screen -dmS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300 --max-clients 500
 #chmod +x /etc/rc.local
 
 # Custom Banner SSH
-
+cd
 echo "================  Banner ======================"
 wget -O /etc/issue.net "https://github.com/idtunnel/sshtunnel/raw/master/debian9/banner-custom.conf"
 chmod +x /etc/issue.net
