@@ -32,7 +32,7 @@ ln -fs /usr/share/zoneinfo/Asia/Jakarta /etc/localtime
 # set locale SSH
 cd
 sed -i 's/#Port 22/Port 22/g' /etc/ssh/sshd_config
-sed -i '/Port 22/a Port 85' /etc/ssh/sshd_config
+sed -i '/Port 22/a Port 88' /etc/ssh/sshd_config
 sed -i 's/AcceptEnv/#AcceptEnv/g' /etc/ssh/sshd_config
 /etc/init.d/ssh restart
 
@@ -127,7 +127,7 @@ client = no
 socket = a:SO_REUSEADDR=1
 socket = l:TCP_NODELAY=1
 socket = r:TCP_NODELAY=1
-[sslssh]
+[sslopenssh]
 accept = 222
 connect = 127.0.0.1:22
 [ssldropbear]
@@ -136,12 +136,9 @@ connect = 127.0.0.1:44
 [ssldropbear]
 accept = 777
 connect = 127.0.0.1:77
-[ssldropbear]
-accept = 3222
-connect = 127.0.0.1:3128
-[ssldropbear]
-accept = 8181
-connect = 127.0.0.1:8888
+[sslopenssh]
+accept = 888
+connect = 127.0.0.1:88
 
 END
 
